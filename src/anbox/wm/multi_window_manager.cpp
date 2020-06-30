@@ -44,8 +44,12 @@ void MultiWindowManager::apply_window_state_update(const WindowState::List &upda
   std::map<Task::Id, WindowState::List> task_updates;
 
   for (const auto &window : updated) {
-    // Ignore all windows which are not part of the freeform task stack
-    if (window.stack() != Stack::Id::Freeform) continue;
+    // Allow windows that are not a part of freeform stack.
+    if (window.stack() != Stack::Id::Freeform) {
+      std::string allow_non_freeform = utils::get_env_value("ANBOX_ALLOW_NON_FREEFORM", "false");
+      if (allow_non_freeform == "false") continue;
+      else if (allow_non_freeform != "true" && window.package_name() != allow_non_freeform) continue;
+    }
 
     // And also those which don't have a surface mapped at the moment
     if (!window.has_surface()) continue;
