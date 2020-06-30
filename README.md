@@ -125,6 +125,7 @@ steps:
 
 ```
 $ mkdir android-images
+http://build.anbox.io/android-images/2017/04/12/android_1_amd64.img
 $ cp /path/to/android.img android-images/android.img
 $ snapcraft
 ```
